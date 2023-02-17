@@ -14,6 +14,7 @@ class Adv extends React.Component {
             <td>{this.props.id}</td>
             <td>{this.props.title}</td>
             <td>{this.props.full_text.slice(0,120)}</td>
+            <td>{this.props.phone}</td>
             <td>{this.props.date}</td>
             <td className="sortCursor">
                 <span className="fa fa-pencil-square-o fa-md" title="Izmjeni oglas" 

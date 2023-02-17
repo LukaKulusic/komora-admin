@@ -24,6 +24,8 @@
     margin-right: 5px
 }
 
+
+
 .modalStyle {
     position: relative;
     border-radius: 3px;
@@ -80,6 +82,14 @@
     margin-left: -5px;
 }
 
+.textEditorPadding {
+    padding-top: 10px;
+}
+
+.textEditor {
+    min-height: 280px;
+}
+
 .textAreaNews {
     margin-top: 5px;
     width: 100%;
@@ -102,13 +112,23 @@
 }
 
 .login {
-    padding-top:4.2rem;
+    /* padding-top:4.2rem;
     padding-bottom:4.2rem;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    /* padding-right: 50%; */
+    /* margin-right: 50%; */
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 5%;
+    /* margin-bottom: 10%; */
     /* background-image: url('D:/stkomora-admin/src/assets/img/wall2.jpg'); */
-    background-image: url('D:/stkomora-admin/src/assets/img/wall1.png');
+    /* background-image: url('D:/stkomora-admin/src/assets/img/wall1.png'); */
     width: 100%;
     height: auto;
+}
+
+.bimg {
+    /* background-image: url('D:/stkomora-admin/src/assets/img/wall1.png'); */
 }
     a{
      text-decoration:none !important;

@@ -7,13 +7,15 @@ class HomePage extends React.Component {
     constructor(props) {
         super(props) 
         this.state = {
+            id: '',
             goal: '',
             licence: '',
             about: '', 
             titleh1: '',
             titleMembers: '',
             titleMember: '',
-            titleMemberH: ''
+            titleMemberH: '',
+            content: ''
         }
     }
 
@@ -21,21 +23,41 @@ class HomePage extends React.Component {
         this.props.getContent()
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            goal: nextProps.content.goal,
-            licence: nextProps.content.licence,
-            about: nextProps.content.about,
-            titleh1: nextProps.content.titleh1,
-            titleMembers: nextProps.content.titleMembers,
-            titleMember: nextProps.content.titleMember,
-            titleMemberH: nextProps.content.titleMemberH
-        })
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({
+    //         id: nextProps.content.id,
+    //         goal: nextProps.content.goal,
+    //         licence: nextProps.content.licence,
+    //         about: nextProps.content.about,
+    //         titleh1: nextProps.content.titleh1,
+    //         titleMembers: nextProps.content.titleMembers,
+    //         titleMember: nextProps.content.titleMember,
+    //         titleMemberH: nextProps.content.titleMemberH
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if(nextProps.content !== prevProps.content) {
+            return {
+                id: nextProps.content.id,
+                goal: nextProps.content.goal,
+                licence: nextProps.content.licence,
+                about: nextProps.content.about,
+                titleh1: nextProps.content.titleh1,
+                titleMembers: nextProps.content.titleMembers,
+                titleMember: nextProps.content.titleMember,
+                titleMemberH: nextProps.content.titleMemberH,
+                content: nextProps.content
+            }
+        }
+        return null
     }
 
-    changeGoal = (e) => {
+
+    changeGoal = (event) => {
+        console.log('click');
         this.setState({
-            goal: e.target.value
+            goal: event.target.value
         })
     }
 
@@ -75,8 +97,21 @@ class HomePage extends React.Component {
         })
     }
 
-    submitForm = () => {
+    submitForm = (e) => {
+        e.preventDefault()
 
+        let content = {
+            id: this.state.id,
+            goal: this.state.goal,
+            licence: this.state.licence,
+            about: this.state.about,
+            titleh1: this.state.titleh1,
+            titleMembers: this.state.titleMembers,
+            titleMember: this.state.titleMember,
+            titleMemberH: this.state.titleMemberH
+        }
+        this.props.editContent(content)
+        alert("Uspješno ste promjenili podatke o početnoj stranici!")
     }
 
     render(){
@@ -89,39 +124,66 @@ class HomePage extends React.Component {
 
                 <div className="col-md-10 mainContent">
                     <div className="box addMemberMargin">
-                        <form name="aboutForm" onSubmit={this.submitForm}>
+                        <form name="homePageForm" onSubmit={this.submitForm}>
                             <div className="contactForm">
                                 <div className="box-header with-border">
                                     <h3 className="box-title">Početna stranica:</h3>
                                 </div>
                                 <div className="box-body">
-                                    <div className="form-group">
-                                        <label>Cilj komore:</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.goal} onChange={this.changeGoal} required></textarea>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Cilj komore:</label>
+                                                <textarea type="text" rows="6" className="form-control" 
+                                                    value={this.state.goal || ""} 
+                                                    onChange={this.changeGoal} 
+                                                    required>
+                                                </textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Obrasci</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.licence} onChange={this.changeLicence} required></textarea>
+                                            </div>
+                                        </div>          
                                     </div>
-                                    <div className="form-group">
-                                        <label>Licenca</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.licence} onChange={this.changeLicence} required></textarea>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>O komori</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.about} onChange={this.changeAbout} required></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Naslov</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.titleh1} onChange={this.changeTitleh1} required></textarea>
+                                            </div>
+                                        </div> 
                                     </div>
-                                    <div className="form-group">
-                                        <label>O komori</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.about} onChange={this.changeAbout} required></textarea>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Članovi komore</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.titleMembers} onChange={this.changeTitleMembers} required></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Vijesti</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.titleMember} onChange={this.changeTitleMember} required></textarea>
+                                            </div>
+                                        </div> 
                                     </div>
-                                    <div className="form-group">
-                                        <label>Naslov</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.titleh1} onChange={this.changeTitleh1} required></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Članovi komore</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.titleMembers} onChange={this.changeTitleMembers} required></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Član komore</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.titleMember} onChange={this.changeTitleMember} required></textarea>
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Počastni članovi</label>
-                                        <textarea type="text" rows="6" className="form-control" value={this.state.titleMemberH} onChange={this.changeTitleMemberH} required></textarea>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label>Počastni članovi</label>
+                                                <textarea type="text" rows="6" className="form-control" value={this.state.titleMemberH} onChange={this.changeTitleMemberH} required></textarea>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-6"></div> 
                                     </div>
                                 </div>
 

@@ -52,7 +52,9 @@ export default function memberReducer(state = initialState, action) {
             }
         case memberConstants.EDITMEMBER_SUCCESS:
             return {
-
+                ...state,
+                members: state.members,
+                member: action.payload
             }
         case memberConstants.EDITMEMBER_FAILURE:
             return {
@@ -77,18 +79,27 @@ export default function memberReducer(state = initialState, action) {
                 loading: false,
                 error: action.payload
             }
-
-        case memberConstants.GETMEMBERDETAILS_SUCCESS:
-            const index = state.members.findIndex(item => item.id === action.payload)
-            if(index > -1) {
-                let _member = state.members.find(item => item.id === action.payload)
-                return {
-                    ...state,
-                    members: state.members,
-                    member: _member
-                }
+        case memberConstants.GETMEMBERDETAILS_REQUEST:
+            return {
+                ...state,
+                loading: true
             }
-            break;
+        case memberConstants.GETMEMBERDETAILS_SUCCESS:
+            // const index = state.members.findIndex(item => item.id === action.payload)
+            // if(index > -1) {
+            //     let _member = state.members.find(item => item.id === action.payload)
+            //     return {
+            //         ...state,
+            //         members: state.members,
+            //         member: _member
+            //     }
+            // }
+            // break;
+            return {
+                ...state,
+                members: state.members,
+                member: action.payload
+            }
         case memberConstants.GETMEMBERDETAILS_FAILURE:
             return {
                 ...state,
@@ -108,6 +119,24 @@ export default function memberReducer(state = initialState, action) {
         case loginConstants.LOGIN_FAILURE:
             return {
                 ...state,
+                error: action.payload
+            }
+        //actions for get cities
+        case memberConstants.GETCITIES_FAILURE:
+            return {
+                ...state,
+                loading: true
+            }
+        case memberConstants.GETCITIES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                cities: action.payload
+            }
+        case memberConstants.GETCITIES_FAILURE:
+            return {
+                ...state,
+                loading: false,
                 error: action.payload
             }
         default:

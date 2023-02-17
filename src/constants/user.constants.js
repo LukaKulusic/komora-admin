@@ -19,5 +19,6 @@ export const userPath = {
     advertismentAdd: '/dodajOglas',
     advertismentEdit: '/izmjeniOglas',
     about: '/onama',
-    login: '/login'
+    login: '/login',
+    congress: '/kongres'
 }

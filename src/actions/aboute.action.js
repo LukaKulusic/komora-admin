@@ -35,7 +35,7 @@ export function editAboutContent_success(content) {
         payload: content
     }
 }
-export function editAboutContent_error(error) {
+export function editAboutContent_failure(error) {
     return {
         type: aboutConstants.EDITABOUTCONTENT_FAILURE,
         payload: error

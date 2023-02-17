@@ -106,7 +106,26 @@ export function getMemberDetails_failure(error) {
     }
 }
 
-
+//actions for cites
+export function getCities_request(cities){
+    return {
+        type: memberConstants.getCities_success,
+        payload: cities
+    }
+}
+export function getCities_success(cities){
+    return {
+        type: memberConstants.GETCITIES_SUCCESS,
+        payload: cities
+    }
+}
+export function getCities_failure(error){
+    return {
+        type: memberConstants.GETCITIES_FAILURE,
+        payload: error
+    }
+}
+//end
 
 
 

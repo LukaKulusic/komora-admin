@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Select from 'react-select'
 import Header from '../Header';
@@ -22,34 +23,44 @@ class CtParliament extends React.Component {
         this.setup()
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-        let par = nextProps.parliamentCt.map(item => {return {value: item.id, label: item.name}})
-        let mem = nextProps.members.map(item => {return {value: item.id, label: item.name}})
-        let _select1 = par.find(item => item.value === 1)
-        this.setState({
-            parliamentNk: par,
-            select1: _select1,
-            members: mem
-        })
+    // componentWillReceiveProps(nextProps) {
+    //     let par = nextProps.parliamentCt.map(item => {return {value: item.id, label: item.name}})
+    //     let mem = nextProps.members.map(item => {return {value: item.id, label: item.name}})
+    //     let _select1 = par.find(item => item.value === 1)
+    //     this.setState({
+    //         parliamentNk: par,
+    //         select1: _select1,
+    //         members: mem
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if(nextProps.parliamentCt !== prevProps.parliamentCt) {
+            let par = nextProps.parliamentCt.map(item => {return {value: item.id, label: item.name}})
+            let mem = nextProps.members.map(item => {return {value: item.id, label: item.name}})
+            let _select1 = par.find(item => item.value === 1)
+            return {
+                parliamentNk: par,
+                select1: _select1,
+                members: mem
+            }
+        }
+
+        return null
     }
 
     onChange = (input, value) => {
-        let s1 = this.state.select1
+        let position = 0
         if(parseInt(value.name) === 1) {
-            s1 = input
+            position = 1
         } 
-        this.setState({
-            select1: s1
-        })
-    }
-
-    saveChanges = () => {
-        let newMembers = {
-            select1: this.state.select1
+        let newUser = {
+            id: position,
+            user_id: input.value,
+            name: input.label
         }
-        console.log(newMembers);
-        // this.props.editParliamentCt(newMembers)
+        this.props.editParliamentCt(newUser)
+        alert('Uspješno ste promjenili člana Cetinjske skupštine')
     }
 
     render() {
@@ -66,10 +77,6 @@ class CtParliament extends React.Component {
                             <h3 className="box-title">Članovi skupštine - Cetinje</h3>
                                 <div className="addMemberMargin">
                                     <Select className="selectStyle" placeholder="Odaberite ime" value={this.state.select1} options={this.state.members} onChange={this.onChange} name="1" />
-                                </div>
-                                <div className="addMemberMargin">
-                                    <button type="submit" className="btn btn-primary"
-                                    onClick={this.saveChanges}>Izmjeni</button>
                                 </div>
                         </div>
                     </div>

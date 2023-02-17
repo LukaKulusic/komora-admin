@@ -3,6 +3,8 @@ import Login from '../components/Login'
 import { login_request } from '../actions/login.action';
 
 const mapStateToProps = state => ({
+    user: state.loginReducer.user,
+    error: state.loginReducer.error
 })
 
 const mapDispatchToProps = dispatch => ({

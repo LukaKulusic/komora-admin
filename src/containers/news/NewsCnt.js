@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import News from '../../components/news/News'
-import { getNews_request, deleteNews_success, deleteNews_request } from '../../actions/news.actions';
+import { getNews_request, deleteNews_request } from '../../actions/news.actions';
 import { getCategory_request } from '../../actions/category.action';
 
 const mapStateToProps = state => ({

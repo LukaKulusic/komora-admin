@@ -37,8 +37,8 @@ export default function memberReducer(state = initialState, action) {
         case memberConstants.BOARDMEMBERADD_SUCCESS:
             return {
                 ...state,
-                loading: false,
-                boardMembers: state.boardMembers.concat([action.payload])
+                loading: false
+                // boardMembers: state.boardMembers.concat([action.payload])
             }
         case memberConstants.BOARDMEMBERADD_FAILURE:
             return {
@@ -55,7 +55,13 @@ export default function memberReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                boardMembers: state.boardMembers.filter(member => member.id !== action.payload)
+                boardMembers: state.boardMembers.filter(member => member.id !== action.payload.id)
+            }
+        case memberConstants.BOARDMEMBERDELETE_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
             }
         case memberConstants.GETBOARDMEMBERDETAILS_REQUEST:
             return {
@@ -63,7 +69,6 @@ export default function memberReducer(state = initialState, action) {
                 loading: true
             }
         case memberConstants.GETBOARDMEMBERDETAILS_SUCCESS:
-            console.log(action.payload);
             return {
                 ...state,
                 loading: false,

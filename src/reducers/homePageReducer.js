@@ -23,6 +23,23 @@ export default function homePageReducer(state = initialState, action) {
                 loading: false,
                 error: action.payload
             }
+        case homePageConstants.HOMEPAGEEDIT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case homePageConstants.HOMEPAGEEDIT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                content: action.payload
+            }
+        case homePageConstants.HOMEPAGEEDIT_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
         default:
             return state
     }

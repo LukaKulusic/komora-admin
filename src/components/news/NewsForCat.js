@@ -5,12 +5,14 @@ import Novelty from '../singleComponents/Novelty';
 import ModalCmp from '../ModalCmp';
 import Sidebar from '../Sidebar';
 import Header from '../Header';
+import Select from 'react-select'
+
 
 class NewsForCat extends React.Component {
     constructor(props){
         super(props) 
         this.state = {
-            news: '',
+            news: [],
             data: [],
             sort: {
                 column : null,
@@ -24,30 +26,79 @@ class NewsForCat extends React.Component {
             temporaryFiltered: [],
             showDeleteModal: false,
             novelty: '',
-            categories: '',
-            showDeleteNoveltyModal: false
+            categories: [],
+            showDeleteNoveltyModal: false,
+            selectCategory: ''
         }
     }
 
     setup = () => {
-        this.props.getNewsForCat(parseInt(this.props.category.id))
+        // if(this.state.selectCategory !== undefined) {
+        //     console.log('1');
+        //     console.log(this.state.selectCategory);
+        //     if(this.state.selectCategory.value > 0 ) {
+        //         console.log('2');
+        //         this.props.getNewsForCat(parseInt(this.state.selectCategory.value))
+        //     }
+        // } else {
+        //     console.log('3');
+            this.props.getNewsForCat(parseInt(this.props.category.id))
+        // }
     }
 
     componentDidMount = () => {
         this.setup()
     }
 
-    componentWillReceiveProps(nextProps) {
-        let pagNews = []
-        if(nextProps.news.length > 0) {
-            pagNews = nextProps.news.slice(this.state.activePage*this.state.newsPerPage - this.state.newsPerPage,
-                this.state.activePage*this.state.newsPerPage, [])
+   
+
+    // componentWillReceiveProps(nextProps) {
+    //     let pagNews = []
+    //     console.log('nextProps = ', nextProps);
+    //     if(nextProps.news.length > 0) {
+    //         pagNews = nextProps.news.slice(this.state.activePage*this.state.newsPerPage - this.state.newsPerPage,
+    //             this.state.activePage*this.state.newsPerPage, [])
+    //     }
+    //     this.setState({
+    //         news: nextProps.news,
+    //         data: pagNews,
+    //         totalNews: nextProps.news.length
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        let _news = [], _pagNews, _categories =[], _selectedCategory
+        if(nextProps.news !== prevProps.news) {
+            _news = nextProps.news
+            _pagNews = nextProps.news.slice(prevProps.activePage*prevProps.newsPerPage - prevProps.newsPerPage,
+                prevProps.activePage*prevProps.newsPerPage, [])
         }
+        if(nextProps.categories !== prevProps.categories) {
+            _categories = nextProps.categories.map(cat => {
+                return {
+                    value: cat.id,
+                    label: cat.name
+                }
+            })
+            _pagNews = nextProps.news.slice(prevProps.activePage*prevProps.newsPerPage - prevProps.newsPerPage,
+                prevProps.activePage*prevProps.newsPerPage, [])
+            _selectedCategory = _categories.find(item => item.value === parseInt(nextProps.category.id))
+        }
+        return {
+            news: _news,
+            data: _pagNews,
+            totalNews: _news.length,
+            categories: _categories,
+            selectCategory: _selectedCategory
+        }
+    }
+
+    changeCategory = (event) => {
         this.setState({
-            news: nextProps.news,
-            data: pagNews,
-            totalNews: nextProps.news.length
+            selectCategory: event
         })
+        // let path =  '/vijestiKategorije/'+event.value
+        // this.props.history.push(path)
     }
 
     search = (input) => {
@@ -131,6 +182,7 @@ class NewsForCat extends React.Component {
             } else if (column === 'id') {
                 return b.id - a.id
             }
+            return 0;
         }) 
         if(direction === 'asc') {
             data.reverse()
@@ -179,6 +231,14 @@ class NewsForCat extends React.Component {
                             <h3 className="box-title">Pregled cjelokupnih vijesti:</h3>
                         </div>
                         <div className="col-md-6">
+                            {/* <Select
+                                className="selectCategory" 
+                                placeholder="Odaberite kategoriju" 
+                                onChange={this.changeCategory}
+                                value={this.state.selectCategory}
+                                options={this.state.categories}
+                            /> */}
+                            <h4>Vijezi za kategoriju: {this.state.selectCategory !== undefined ? this.state.selectCategory.label : ""} </h4>
                         </div>
                         <div className="col-md-6 newsSearch">
                             <form className="form-horizontal">
@@ -221,6 +281,8 @@ class NewsForCat extends React.Component {
                                 </thead>
                                 <tbody>
                                     {
+                                        this.state.data !== undefined ?
+
                                         this.state.data.map(novelty => {
                                             return <Novelty 
                                                 key={novelty.id}
@@ -232,6 +294,9 @@ class NewsForCat extends React.Component {
                                                 deleteNovelty={() => this.deleteNoveltyClick(novelty)}
                                             />
                                         })
+                                        : <tr>
+                                            <td></td>
+                                        </tr>   
                                     }
                                 </tbody>
                                 <tfoot>

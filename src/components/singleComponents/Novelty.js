@@ -15,7 +15,8 @@ class Novelty extends React.Component {
             <td>{this.props.title}</td>
             <td>{this.props.category_name}</td>
             <td>{this.props.content.slice(0,120)}</td>
-            <td>{this.props.date}</td>
+            <td>{this.props.updated_at}</td>
+            <td>{this.props.file}</td>
             <td className="sortCursor">
                 <span className="fa fa-pencil-square-o fa-md" title="Izmjeni vijest" 
                     onClick={() => this.editNovelty(this.props.id)}></span>

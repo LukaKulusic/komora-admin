@@ -83,15 +83,29 @@ export default function newsReducer(state = initialState, action) {
                 loading: false,
             }
         case newsConstants.EDITNEWS_SUCCESS:
-            // TODO
-            const editedNews = state.news.map(novelty => {
-                if(novelty.id === action.payload.id){
+             let editedNews = state.news.map(novelty => {
+                if(novelty.id === action.payload.id) {
                     return Object.assign({}, novelty, {
-                        //todo
+                        id: action.payload.id,
+                        title: action.payload.title,
+                        category_id: action.payload.category_id,
+                        category_name: action.payload.category_name,
+                        posted_by: "admin",
+                        date: action.payload.date,
+                        content: action.payload.content,
+                        full_text: action.payload.full_text,
+                        popular: action.payload.popular,
+                        updated_at: action.payload.updated_at
                     })
-                }
-                return editedNews
+                } 
+                return novelty
             })
+            return {
+                ...state,
+                loading: false,
+                news: editedNews,
+                noveltyDetails: action.payload
+            }
         case newsConstants.EDITNEWS_FAILURE:
             return {
                 ...state,

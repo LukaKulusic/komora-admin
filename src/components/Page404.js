@@ -1,5 +1,5 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
+import { withRouter, NavLink } from 'react-router-dom'
 
 class Page404 extends React.Component {
     render() {
@@ -12,7 +12,7 @@ class Page404 extends React.Component {
                     <h3><i className="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
                     <p>
                         We could not find the page you were looking for.
-                        Meanwhile, you may <a href="/pocetna">return to dashboard</a> .
+                        Meanwhile, you may <NavLink to="/pocetna">return to dashboard</NavLink> .
                     </p>
                 </div>
                 </div>

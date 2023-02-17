@@ -5,7 +5,6 @@ import MemberListCnt from './containers/members/MemberListCnt';
 import MemberAddCnt from './containers/members/MemberAddCnt';
 import MemberEditCnt from './containers/members/MemberEditCnt';
 import BoardMembersCnt from './containers/members/BoardMembersCnt';
-import BiographyCnt from './containers/BiographyCnt';
 import ContactCnt from './containers/ContactCnt';
 import NewsCnt from './containers/news/NewsCnt'
 import NewsForCatCnt from './containers/news/NewsForCatCnt'
@@ -16,12 +15,13 @@ import CtCnt from './containers/parliament/CtCnt'
 import SouthCnt from './containers/parliament/SouthCnt'
 import NorthCnt from './containers/parliament/NorthCnt'
 import AddNoveltyCnt from './containers/news/AddNoveltyCnt';
-import Login from './components/Login'
 import AdvListCnt from './containers/advertisments/AdvListCnt';
 import AdvAddCnt from './containers/advertisments/AdvAddCnt';
 import AdvEditCnt from './containers/advertisments/AdvEditCnt';
 import AboutCnt from './containers/AboutCnt';
 import HomePageCnt from './containers/HomePageCnt';
+import LoginCnt from './containers/LoginCnt';
+import CongressCnt from './containers/CongressCnt';
 
 const routes = [
     {
@@ -48,10 +48,6 @@ const routes = [
     {
         path: userPath.boardMembers,
         main: () => <BoardMembersCnt />
-    },
-    {
-        path: userPath.biography+'/:id',
-        main: ({match}) => <BiographyCnt biography={match.params}/>
     },
     {
         path: userPath.news,
@@ -107,7 +103,11 @@ const routes = [
     },
     {
         path: userPath.login,
-        main: () => <Login />
+        main: () => <LoginCnt />
+    },
+    {
+        path: userPath.congress,
+        main: () => <CongressCnt />
     }
 ]
 

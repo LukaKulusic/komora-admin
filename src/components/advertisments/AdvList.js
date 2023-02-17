@@ -32,17 +32,33 @@ class AdvList extends React.Component {
         this.props.getAdvs()
     }
 
-    componentWillReceiveProps(nextProps) {
+    // componentWillReceiveProps(nextProps) {
+    //     let pagAdvs = []
+    //     if(nextProps.advs.length > 0) {
+    //         pagAdvs = nextProps.advs.slice(this.state.activePage*this.state.advsPerPage - this.state.advsPerPage,
+    //             this.state.activePage*this.state.advsPerPage, [])
+    //     }
+    //     this.setState({
+    //         advs: nextProps.advs,
+    //         data: pagAdvs,
+    //         totalAdvs: nextProps.advs.length
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
         let pagAdvs = []
-        if(nextProps.advs.length > 0) {
-            pagAdvs = nextProps.advs.slice(this.state.activePage*this.state.advsPerPage - this.state.advsPerPage,
-                this.state.activePage*this.state.advsPerPage, [])
+        if(nextProps.advs !== prevProps.advs) {
+            if(nextProps.advs.length > 0) {
+                pagAdvs = nextProps.advs.slice(prevProps.activePage*prevProps.advsPerPage - prevProps.advsPerPage,
+                prevProps.activePage*prevProps.advsPerPage, [])
+            }
+            return {
+                advs: nextProps.advs,
+                data: pagAdvs,
+                totalAdvs: nextProps.advs.length
+            }
         }
-        this.setState({
-            advs: nextProps.advs,
-            data: pagAdvs,
-            totalAdvs: nextProps.advs.length
-        })
+        return null
     }
 
     search = (input) => {
@@ -107,6 +123,7 @@ class AdvList extends React.Component {
             } else if (column ==='date') {
                 return b.date - a.date
             }
+            return 0;
         }) 
         if(direction === 'asc') {
             data.reverse()
@@ -178,9 +195,13 @@ class AdvList extends React.Component {
                                             <span className="fa fa-sort"></span>
                                             Naslov
                                         </th>
-                                        <th onClick={this.onSort()}>
+                                        <th>
                                             <span className="fa fa-sort"></span>
                                             Tekst
+                                        </th>
+                                        <th onClick={this.onSort('phone')}>
+                                            <span className="fa fa-sort"></span>
+                                            Tel
                                         </th>
                                         <th onClick={this.onSort('date')}>
                                             <span className="fa fa-sort"></span>
@@ -198,6 +219,7 @@ class AdvList extends React.Component {
                                             key={adv.id}
                                             id={adv.id}
                                             title={adv.title}
+                                            phone={adv.phone}
                                             date={adv.date}
                                             full_text={adv.full_text}
                                             deleteAdv={() => this.deleteAdvClick(adv)}

@@ -30,6 +30,11 @@ export default function aboutReducer(state = initialState, action) {
                 loading: true
             }
         case aboutConstants.EDITABOUTCONTENT_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                content: action.payload
+            }
         case aboutConstants.EDITABOUTCONTENT_FAILURE:
             return {
                 ...state,

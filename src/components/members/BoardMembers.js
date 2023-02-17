@@ -32,18 +32,21 @@ class BoardMembers extends React.Component {
         this.setup()
     }
 
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps, prevProps) {
         let pagMembers = []
-        if(nextProps.members.length > 0) {
-            pagMembers = nextProps.members.slice(this.state.activePage*this.state.usersPerPage - this.state.usersPerPage,
-                this.state.activePage*this.state.usersPerPage, [])
+        if(nextProps.members !== prevProps.members) {
+            pagMembers = nextProps.members.slice(prevProps.activePage*prevProps.usersPerPage - prevProps.usersPerPage,
+                prevProps.activePage*prevProps.usersPerPage, [])
+            return {
+                members: nextProps.members,
+                data: pagMembers,
+                totalMembers: nextProps.members.length
+            }
         }
-        this.setState({
-            members: nextProps.members,
-            data: pagMembers,
-            totalMembers: nextProps.members.length
-        })
+        return null
     }
+
+
     onSort = (column) => (e) => {
         const direction = this.state.sort.column ? (this.state.sort.direction === 'asc' ? 'desc' : 'asc') : 'desc';
         const data = this.state.members.sort((a,b) => {
@@ -82,6 +85,7 @@ class BoardMembers extends React.Component {
             } else if (column === 'id') {
                 return b.id - a.id
             }
+            return 0;
         })
         if(direction === 'asc') {
             data.reverse()
@@ -207,6 +211,7 @@ class BoardMembers extends React.Component {
                                         phone={member.phone}
                                         city={member.city}
                                         company={member.company}
+                                        member={member}
                                     />
                                 })
                             }

@@ -1,22 +1,37 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 
 export default class Sidebar extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeMenuItem: ''
+        }
+    }
+
+    activateMenuItem = (menuItemName) => {
+        this.setState({
+            activeMenuItem: menuItemName
+        })
+    }
 
 
     render(){
         return (
-            <aside className="main-sidebar">
+            <aside className="main-sidebar" style={{'minHeight':'200vh'}}>
                 <section className="sidebar">
-                <div className="user-panel">
-                    <div className="pull-left image">
-                    <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User" />
-                    </div>
-                    <div className="pull-left info">
-                    <p>Administracija</p>
-                    <a href="#1"><i className="fa fa-circle text-success"></i>Online</a>
-                    </div>
-                </div>
-                <form action="#1" method="get" className="sidebar-form">
+                {/* <div className="user-panel "> */}
+                    {/* <div className="pull-left image"> */}
+                    {/* <img src="dist/img/logo.png" className="img-circle" alt="User" /> */}
+                    {/* <img src="/public/dist/img" className="img-circle" alt="User" /> */}
+                    {/* </div> */}
+                    {/* <div className="pull-left info"> */}
+                    {/* <p>Administracija</p> */}
+                    {/* <a href=""><i className="fa fa-circle text-success"></i>Online</a> */}
+                    {/* </div> */}
+                {/* </div> */}
+                {/* <form action="#1" method="get" className="sidebar-form">
                     <div className="input-group">
                     <input type="text" name="q" className="form-control" placeholder="Search..." />
                     <span className="input-group-btn">
@@ -24,103 +39,118 @@ export default class Sidebar extends React.Component {
                             </button>
                         </span>
                     </div>
-                </form>
+                </form> */}
                     <ul className="sidebar-menu" data-widget="tree">
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'pocetna' ? 'active' : ''}`}>
+                            {/* <a href="#1" onClick={() => this.activateMenuItem('pocetna')}> */}
+                            <NavLink to="#1"  onClick={() => this.activateMenuItem('pocetna')}>
                                 <i className="fa fa-dashboard"></i> <span>Početna</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="pocetna"><i className="fa fa-circle-o"></i> Podaci o stranici</a></li>
+                                <li className="active"><NavLink to="/pocetna"><i className="fa fa-circle-o"></i> Podaci o stranici</NavLink></li>
                             </ul>
                         </li>
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'onama' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('onama')}>
                                 <i className="fa fa-user-circle"></i> <span>O nama</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="onama"><i className="fa fa-circle-o"></i> Podaci o stranici</a></li>
+                                <li><NavLink to='/onama'><i className="fa fa-circle-o"></i> Podaci o stranici</NavLink></li>
                             </ul>
                         </li>
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'clanovi_komore' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('clanovi_komore')}>
                                 <i className="fa fa-user-o"></i> <span>Članovi komore</span>
                                 <span className="pull-right-container">
                                     <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="spisakClanova"><i className="fa fa-circle-o"></i> Spisak članova</a></li>
-                                <li><a href="dodajClana"><i className="fa fa-circle-o"></i> Dodaj člana</a></li>
+                                <li><NavLink to="/spisakClanova"><i className="fa fa-circle-o"></i> Spisak članova</NavLink></li>
+                                <li><NavLink to="/dodajClana"><i className="fa fa-circle-o"></i> Dodaj člana</NavLink></li>
                             </ul>
                         </li>
 
-                        <li className="active treeview">
-                            <a href="clanoviOdbora">
+                        <li className={`treeview ${this.state.activeMenuItem === 'clanovi_izvrsnog_odbora' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('clanovi_izvrsnog_odbora')}>
                                 <i className="fa fa-user"></i><span>Članovi izvršnog odbora</span>
                                     <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="clanoviOdbora"><i className="fa fa-circle-o"></i> Spisak članova</a></li>
+                                <li className="active"><NavLink to="/clanoviOdbora"><i className="fa fa-circle-o"></i> Spisak članova</NavLink></li>
                             </ul>
                         </li>
 
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'clanovi_skupstine' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('clanovi_skupstine')}>
                                 <i className="fa fa-user-circle"></i> <span>Članovi skupštine</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="clanoviSkupstinePg"><i className="fa fa-circle-o"></i> Podgorica</a></li>
-                                <li><a href="clanoviSkupstineCt"><i className="fa fa-circle-o"></i> Cetinje</a></li>
-                                <li><a href="clanoviSkupstineNk"><i className="fa fa-circle-o"></i> Nikšić</a></li>
-                                <li><a href="clanoviSkupstineSjever"><i className="fa fa-circle-o"></i> Sjever</a></li>
-                                <li><a href="clanoviSkupstineJug"><i className="fa fa-circle-o"></i> Jug</a></li>
+                                <li><NavLink to="/clanoviSkupstinePg" ><i className="fa fa-circle-o"></i> Podgorica</NavLink></li>
+                                <li><NavLink to="/clanoviSkupstineCt" ><i className="fa fa-circle-o"></i> Cetinje</NavLink></li>
+                                <li><NavLink to="/clanoviSkupstineNk" ><i className="fa fa-circle-o"></i> Nikšić</NavLink></li>
+                                <li><NavLink to="/clanoviSkupstineSjever" ><i className="fa fa-circle-o"></i> Sjever</NavLink></li>
+                                <li><NavLink to="/clanoviSkupstineJug" ><i className="fa fa-circle-o"></i> Jug</NavLink></li>
                             </ul>
                         </li>
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'vijesti' ? 'active' : ''}`}>
+                            {/* <a href="#1" onClick={() => this.activateMenuItem('vijesti')}> */}
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('vijesti')}>
                                 <i className="fa fa-user-circle"></i> <span>Vijesti</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="vijesti"><i className="fa fa-circle-o"></i> Pregled vijesti</a></li>
-                                <li><a href="dodajVijest"><i className="fa fa-circle-o"></i> Dodaj vijest</a></li>
+                                <li className="active"><NavLink to='/vijesti'><i className="fa fa-circle-o"></i> Pregled vijesti</NavLink></li>
+                                {/* <li><a href="dodajVijest"><i className="fa fa-circle-o"></i> Dodaj vijest</a></li> */}
+                                <li><NavLink to='/dodajVijest'><i className="fa fa-circle-o"></i> Dodaj vijest</NavLink></li>
                             </ul>
                         </li>
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'oglasi' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('oglasi')}>
                                 <i className="fa fa-user-circle"></i> <span>Oglasi</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="oglasi"><i className="fa fa-circle-o"></i> Pregled oglasa</a></li>
-                                <li><a href="dodajOglas"><i className="fa fa-circle-o"></i> Dodaj oglas</a></li>
+                                <li className="active"><NavLink to="/oglasi"><i className="fa fa-circle-o"></i> Pregled oglasa</NavLink></li>
+                                <li><NavLink to="/dodajOglas"><i className="fa fa-circle-o"></i> Dodaj oglas</NavLink></li>
                             </ul>
                         </li>
-                        <li className="active treeview">
-                            <a href="#1">
+                        <li className={`treeview ${this.state.activeMenuItem === 'kontakt' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('kontakt')}>
                                 <i className="fa fa-user-circle"></i> <span>Kontakt</span>
                                 <span className="pull-right-container">
                                 <i className="fa fa-angle-left pull-right"></i>
                                 </span>
-                            </a>
+                            </NavLink>
                             <ul className="treeview-menu">
-                                <li className="active"><a href="kontakt"><i className="fa fa-circle-o"></i> Podaci o firmi</a></li>
+                                <li className="active"><NavLink to="/kontakt"><i className="fa fa-circle-o"></i> Podaci o firmi</NavLink></li>
+                            </ul>
+                        </li>
+
+                        <li className={`treeview ${this.state.activeMenuItem === 'kongres' ? 'active' : ''}`}>
+                            <NavLink to="#1" onClick={() => this.activateMenuItem('kongres')}>
+                                <i className="fa fa-user-circle"></i> <span>Kongres</span>
+                                <span className="pull-right-container">
+                                <i className="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </NavLink>
+                            <ul className="treeview-menu">
+                                <li className="active"><NavLink to="/kongres"><i className="fa fa-circle-o"></i> Prijave</NavLink></li>
                             </ul>
                         </li>
                     </ul>

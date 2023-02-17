@@ -16,8 +16,8 @@ export function* getParliamentPg() {
     }
 }
 
-export function* editParliamentPg(members) {
-    const response = yield call(editMembersPg_api(members))
+export function* editParliamentPg(action) {
+    const response = yield call(editMembersPg_api, action.payload)
     if(!response || !response.data) {
         return yield put(editParliamentPg_failure('Internal server error for edit pg parliament memebers'))
     }
@@ -44,8 +44,8 @@ export function* getParliamentNk() {
     }
 }
 
-export function* editParliamentNk(memebers){
-    const response = yield call(editMembersNk_api(memebers))
+export function* editParliamentNk(action){
+    const response = yield call(editMembersNk_api, action.payload)
     if(!response || !response.data){
         return yield put(editParliamentNk_failure('Internal server error for edit nk parliament members'))
     } 
@@ -72,8 +72,8 @@ export function* getParliamentCt() {
         return yield put(getParliamentCt_failure('Error for loading ct parliament'))
     }
 }
-export function* editParliamentCt(members) {
-    const response = yield call(editMembersCt_api(members))
+export function* editParliamentCt(action) {
+    const response = yield call(editMembersCt_api, action.payload)
     if(!response || !response.data) {
         return yield put(editParliamentCt_failure('Internal server error for edit parliament ct members'))
     }
@@ -99,8 +99,8 @@ export function* getParliamentSouth() {
     }
 }
 
-export function* editParliamentSouth(members){
-    const response = yield call(editMembersSouth_api(members))
+export function* editParliamentSouth(action){
+    const response = yield call(editMembersSouth_api, action.payload)
     if(!response || !response.data) {
         return yield put(editParliamentSouth_failure('Internal server error for edit parliament south members'))
     }
@@ -126,8 +126,8 @@ export function* getParliamentNorth() {
         return yield put(getParliamentNorth_failure('Error for loading north members'))
     }
 }
-export function* editParliamentNorth(members){
-    const response = yield call(editMembersNorth_api(members))
+export function* editParliamentNorth(action){
+    const response = yield call(editMembersNorth_api, action.payload)
     if(!response || !response.data) {
         return yield put(editParliamentNorth_failure('Internal server error for edit parliament north members'))
     }
@@ -153,5 +153,5 @@ export function* parliamentSaga() {
     yield takeEvery(parliamentConstants.EDITPARLIAMENTNK_REQUEST, editParliamentNk)
     yield takeEvery(parliamentConstants.EDITPARLIAMENTCT_REQUEST, editParliamentCt)
     yield takeEvery(parliamentConstants.EDITPARLIAMENTSOUTH_REQUEST, editParliamentSouth)
-    yield takeEvery(parliamentConstants.EDITPARLIAMENTNORTH_REQUEST, editParliamentSouth)
+    yield takeEvery(parliamentConstants.EDITPARLIAMENTNORTH_REQUEST, editParliamentNorth)
 }

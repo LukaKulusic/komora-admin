@@ -48,6 +48,37 @@ export default function advReducer(state = initialState, action) {
             }
         //add advertisment ends
 
+        //edit advertisment starts
+        case advertismentConstants.EDITADV_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case advertismentConstants.EDITADV_SUCCESS:
+            return {
+                ...state,
+                advs: state.advs,
+                advDetails: action.payload
+            }
+            // const editedAdv = state.parliamentPg.map(adv => {
+            //     if(adv.id === action.payload.id) {
+            //         return Object.assign({}, adv, {
+            //             aboutTitle: adv.aboutTitle,
+            //             aboutContent: adv.aboutContent,
+            //             parliamentContent: adv.parliamentContent
+            //         })
+            //     }
+            //     return adv
+            // })
+            // return editedAdv
+        case advertismentConstants.EDITADV_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+        //edit advertisment ends
+
         //delete adv starts
         case advertismentConstants.DELETEADV_REQUEST:
             return {

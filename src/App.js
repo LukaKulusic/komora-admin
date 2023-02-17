@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import PageRouting from './PageRouting'
 import Page404 from './components/Page404'
 import PrivateRoute from './components/PrivateRoute';
@@ -9,6 +9,7 @@ class App extends React.Component {
     return (
       <Router>
           <Switch>
+            {/* <Redirect exact path="/" to="/login" /> */}
             <Route path='/login' component={PageRouting} />
             <PrivateRoute path='/pocetna' component={PageRouting} />
             <PrivateRoute path='/kontakt' component={PageRouting} />
@@ -30,7 +31,8 @@ class App extends React.Component {
             <PrivateRoute path='/dodajOglas' component={PageRouting} />
             <PrivateRoute path='/izmjeniOglas' component={PageRouting} />
             <PrivateRoute path='/onama' component={PageRouting} />
-            <Route path="/" component={Page404}></Route>
+            <PrivateRoute path='/kongres' component={PageRouting} />
+            <Route component={Page404}/> 
           </Switch>
       </Router>
     )

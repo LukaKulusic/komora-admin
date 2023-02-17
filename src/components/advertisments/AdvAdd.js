@@ -8,7 +8,7 @@ class AdvAdd extends React.Component {
         super(props)
         this.state = {
             title: '',
-            text: '',
+            full_text: '',
             phone: '',
             errorPhone: ''
         }
@@ -22,7 +22,7 @@ class AdvAdd extends React.Component {
 
     changeText = (event) => {
         this.setState({
-            text: event.target.value
+            full_text: event.target.value
         })
     }
 
@@ -30,14 +30,6 @@ class AdvAdd extends React.Component {
         this.setState({
             phone: event.target.value
         })
-    }
-
-    addAdv = () => {
-        const adv = {
-            title: this.state.title,
-            text: this.state.text
-        }
-        this.props.addAdv(adv)
     }
 
     handleValidation = () => {
@@ -61,14 +53,25 @@ class AdvAdd extends React.Component {
         if(this.handleValidation()) {
             const adv = {
                 title: this.state.title,
-                text: this.state.text
+                full_text: this.state.full_text,
+                phone: this.state.phone
             }
-            // this.props.addAdv(adv)
-            console.log(adv);
+            this.props.addAdv(adv)
             // window.location.reload()
+            alert('Uspješno ste dodali oglas')
+            this.resetFields()
         } else {
             alert("Greska!")
         }
+    }
+
+    resetFields = () => {
+        this.setState({
+            title: '',
+            full_text: '',
+            phone: '',
+            errorPhone: ''
+        })
     }
 
     render() {
@@ -102,7 +105,7 @@ class AdvAdd extends React.Component {
                                     </div>
                                 </div>
                                 <div className="form-group">
-                                    <textarea className="textAreaNews" value={this.state.text} onChange={this.changeText} ></textarea>
+                                    <textarea className="textAreaNews" value={this.state.full_text} placeholder="Unesite tekst oglasa" onChange={this.changeText} required></textarea>
                                 </div>
                             </div>
                             <div className="box-footer">

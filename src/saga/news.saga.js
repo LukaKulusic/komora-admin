@@ -40,8 +40,8 @@ export function* getNewsForCateogry(action) {
     }
 }
 
-export function* addNews(news) {
-    const response = yield call(addNews_api(news))
+export function* addNews(action) {
+    const response = yield call(addNews_api, action.payload)
     if(!response || !response.data) {
         return yield put(addNews_failure('Internal server error for add news'))
     } 
@@ -52,8 +52,8 @@ export function* addNews(news) {
     }
 }
 
-export function* editNews(news) {
-    const response = yield call(editNews_api(news))
+export function* editNews(action) {
+    const response = yield call(editNews_api, action.payload)
     if(!response || !response.data) {
         return yield put(editNews_failure('Internal server error for edit news'))
     }
@@ -64,8 +64,8 @@ export function* editNews(news) {
     }
 }
 
-export function* deleteNews(news) {
-    const response = yield call(deleteNews_api(news))
+export function* deleteNews(action) {
+    const response = yield call(deleteNews_api, action.payload.id)
     if(!response || !response.data) {
         return yield put(deleteNews_failure('Internal server error for delete news'))
     }

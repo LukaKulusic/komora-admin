@@ -31,18 +31,18 @@ class MembersList extends React.Component {
         this.setup()
     }
 
-
-    componentWillReceiveProps(nextProps) {
+    static getDerivedStateFromProps(nextProps, prevProps) {
         let pagMembers = []
-        if(nextProps.members.length > 0) {
-            pagMembers = nextProps.members.slice(this.state.activePage*this.state.usersPerPage - this.state.usersPerPage,
-                this.state.activePage*this.state.usersPerPage, [])
+        if(nextProps.members !== prevProps.members) {
+            pagMembers = nextProps.members.slice(prevProps.activePage*prevProps.usersPerPage - prevProps.usersPerPage,
+            prevProps.activePage*prevProps.usersPerPage, [])
+            return {
+                members: nextProps.members,
+                data: pagMembers,
+                totalMembers: nextProps.members.length
+            }
         }
-        this.setState({
-            members: nextProps.members,
-            data: pagMembers,
-            totalMembers: nextProps.members.length
-        })
+        return null
     }
 
     setup = () => {
@@ -82,11 +82,22 @@ class MembersList extends React.Component {
                     return 1
                 }
                 return 0
-            } else if(column === 'phone') {
+            } else if(column === 'email') {
+                const nameA = a.name.toUpperCase();
+                const nameB = b.name.toUpperCase();
+                if(nameA < nameB) {
+                    return -1
+                }
+                if(nameA > nameB) {
+                    return 1
+                }
+                return 0
+            }else if(column === 'phone') {
                 return b.id - a.id
             } else if (column === 'id') {
                 return b.id - a.id
             }
+            return 0;
         })
         if(direction === 'asc') {
             data.reverse()
@@ -110,13 +121,15 @@ class MembersList extends React.Component {
         let _temporaryFiltered
         let _temporaryNumberOfPages
         if(input.target.value.length > 0) {
-            searchF = true
-            filteredMembers = filteredMembers.filter(item => {
-                return item.name.toLowerCase().search(
-                    input.target.value.toLowerCase()) !== -1
-            })
-            _temporaryFiltered = filteredMembers
-            _temporaryNumberOfPages = Math.round(filteredMembers.length / this.state.usersPerPage)
+            if(input.target.value.match(/[A-Za-z]/)){
+                searchF = true
+                filteredMembers = filteredMembers.filter(item => {
+                    return item.name.toLowerCase().search(
+                        input.target.value.toLowerCase()) !== -1
+                })
+                _temporaryFiltered = filteredMembers
+                _temporaryNumberOfPages = Math.round(filteredMembers.length / this.state.usersPerPage)
+            }
         } else {
          searchF = false
          filteredMembers = this.props.members
@@ -163,6 +176,7 @@ class MembersList extends React.Component {
     deleteMember = (_member) => {
         this.props.deleteMember(_member)
         this.closeModal()
+        // this.setup()
     }
 
     render() {
@@ -175,7 +189,6 @@ class MembersList extends React.Component {
 
                 <div className="col-md-10 mainContent">
                     <div className="box">
-
                         <div className="box-header">
                             <h3 className="box-title">Spisak članova komore</h3>
                         </div>
@@ -207,9 +220,17 @@ class MembersList extends React.Component {
                                         <span className="fa fa-sort"></span>
                                         Telefon
                                     </th>
+                                    <th onClick={this.onSort('email')}>
+                                        <span className="fa fa-sort"></span>
+                                        E-mail
+                                    </th>
                                     <th onClick={this.onSort('city')}>
                                         <span className="fa fa-sort"></span>
                                         Grad
+                                    </th>
+                                    <th onClick={this.onSort('city')}>
+                                        <span className="fa fa-sort"></span>
+                                        Adresa
                                     </th>
                                     <th onClick={this.onSort('company')}>
                                         <span className="fa fa-sort"></span>
@@ -227,10 +248,13 @@ class MembersList extends React.Component {
                                             key={member.id}
                                             id={member.id}
                                             name={member.name}
+                                            email={member.email}
                                             phone={member.phone}
                                             city={member.city}
+                                            address={member.address}
                                             company={member.company}
                                             deleteMember={() => this.deleteMemberClick(member)}
+                                            member={member}
                                         />
                                     })
                                 }

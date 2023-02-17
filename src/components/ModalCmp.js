@@ -10,10 +10,19 @@ export default class ModalCmp extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            showModal: nextProps.showModal
-        })
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({
+    //         showModal: nextProps.showModal
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if(nextProps.showModal !== prevProps.showModal) {
+            return {
+                showModal: nextProps.showModal
+            }
+        }
+        return null
     }
 
     render() {

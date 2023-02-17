@@ -7,12 +7,14 @@ class Contact extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            id: '',
             address: '',
             workTime: '',
             phone1: '',
             phone2: '',
             email: '',
-            bankAccount: ''
+            bankAccount: '',
+            contactDetails: ''
         }
     }
 
@@ -24,17 +26,33 @@ class Contact extends React.Component {
         this.setup()
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log('nextProps: ', nextProps);
-        this.setState({
-            address: nextProps.contactDetails.address,
-            workTime: nextProps.contactDetails.work_time,
-            phone1: nextProps.contactDetails.phone1,
-            phone2: nextProps.contactDetails.phone2,
-            email: nextProps.contactDetails.email,
-            bankAccount: nextProps.contactDetails.bank_account
-        })
+    // componentWillReceiveProps(nextProps) {
+    //     this.setState({
+    //         id: nextProps.contactDetails.id,
+    //         address: nextProps.contactDetails.address,
+    //         workTime: nextProps.contactDetails.work_time,
+    //         phone1: nextProps.contactDetails.phone1,
+    //         phone2: nextProps.contactDetails.phone2,
+    //         email: nextProps.contactDetails.email,
+    //         bankAccount: nextProps.contactDetails.bank_account
+    //     })
+    // }
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if(nextProps.contactDetails !== prevProps.contactDetails) {
+            return {
+                id: nextProps.contactDetails.id,
+                address: nextProps.contactDetails.address,
+                workTime: nextProps.contactDetails.work_time,
+                phone1: nextProps.contactDetails.phone1,
+                phone2: nextProps.contactDetails.phone2,
+                email: nextProps.contactDetails.email,
+                bankAccount: nextProps.contactDetails.bank_account,
+                contactDetails: nextProps.contactDetails
+            }
+        }
     }
+
 
     changeAddress = (input) => {
         this.setState({
@@ -72,18 +90,20 @@ class Contact extends React.Component {
         })
     }
 
-    saveChanges = () => {
-        let _details = {
+    submitForm = (e) => {
+        e.preventDefault()
+
+        let details = {
+            id: this.state.id,
             address: this.state.address,
-            workTime: this.state.workTime,
+            work_time: this.state.workTime,
             phone1: this.state.phone1,
             phone2: this.state.phone2,
             email: this.state.email,
-            bankAccount: this.state.bankAccount
-        }
-        this.props.saveChanges(_details)
+            bank_account: this.state.bankAccount
+        }; 
+        this.props.saveChanges(details)
         alert('Uspješno ste promjenili podatke o firmi')
-        this.props.history.push('/spisakClanova')
     }
 
     render(){
@@ -97,41 +117,44 @@ class Contact extends React.Component {
                 <div className="col-md-10 mainContent">
 
                     <div className="box addMemberMargin">
-                        <div className="contactForm">
+                        <form name="contactForm" onSubmit={this.submitForm}>
+                            <div className="contactForm">
                                 <div className="box-header with-border">
                                     <h3 className="box-title">Detalji o komori:</h3>
                                 </div>
                                 <div className="box-body">
                                     <div className="form-group">
                                         <label>Adresa:</label>
-                                        <input type="text" className="form-control"  placeholder="Unesite adresu" value={this.state.address} onChange={this.changeAddress} required/>
+                                        <input type="text" className="form-control"  placeholder="Unesite adresu" value={this.state.address || ""} onChange={this.changeAddress} required/>
                                     </div>
                                     <div className="form-group">
                                         <label >Telefon1:</label>
-                                        <input type="text" className="form-control" placeholder="Unesite broj telefona1" value={this.state.phone1} onChange={this.changePhone1} />
+                                        <input type="text" className="form-control" placeholder="Unesite broj telefona1" value={this.state.phone1 || ""} onChange={this.changePhone1} />
                                     </div>
                                     <div className="form-group">
                                         <label >Telefon2:</label>
-                                        <input type="text" className="form-control" placeholder="Unesite broj telefona2" value={this.state.phone2} onChange={this.changePhone2} />
+                                        <input type="text" className="form-control" placeholder="Unesite broj telefona2" value={this.state.phone2 || ""} onChange={this.changePhone2} />
                                     </div>
                                     <div className="form-group">
                                         <label >E-mail:</label>
-                                        <input type="text" className="form-control" placeholder="Unesite e-mail" value={this.state.email} onChange={this.changeEmail} />
+                                        <input type="text" className="form-control" placeholder="Unesite e-mail" value={this.state.email || ""} onChange={this.changeEmail} />
                                     </div>
                                     <div className="form-group">
                                         <label>Radno vrijeme:</label>
-                                        <input type="text" className="form-control" placeholder="Unesite radno vrijeme" value={this.state.workTime} onChange={this.changeWorkTime} />
+                                        <input type="text" className="form-control" placeholder="Unesite radno vrijeme" value={this.state.workTime || ""} onChange={this.changeWorkTime} />
                                     </div>
                                     <div className="form-group">
                                         <label>Žiro račun:</label>
-                                        <input type="text" className="form-control" placeholder="Unesite broj žiro računa" value={this.state.bankAccount} onChange={this.changeBankAccount} />
+                                        <input type="text" className="form-control" placeholder="Unesite broj žiro računa" value={this.state.bankAccount || ""} onChange={this.changeBankAccount} />
                                     </div>
                                 </div>
 
                                 <div className="box-footer">
-                                    <button type="submit" className="btn btn-primary" onClick={() => this.saveChanges()}>Sačuvaj</button>
+                                    <button type="submit" className="btn btn-primary">Sačuvaj</button>
                                 </div>
-                        </div>
+                            </div>
+                        </form>
+ 
                     </div>
                 </div>
             </div>

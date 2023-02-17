@@ -74,7 +74,6 @@ export function deleteAdv_request(adv){
     }
 }
 export function deleteAdv_success(adv){
-    console.log('action: ', adv);
     return {
         type: advertismentConstants.DELETEADV_SUCCESS,
         payload: adv

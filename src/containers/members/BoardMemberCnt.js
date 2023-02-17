@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import BoardMember from '../../components/singleComponents/BoardMember';
-import { deleteBoardMember_success } from '../../actions/boardMember.action';
+import { deleteBoardMember_request } from '../../actions/boardMember.action';
 
 const mapStateToProps = state => ({
     members: state.memberReducer.members,
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    deleteFromBoard: (member) => dispatch(deleteBoardMember_success(member))
+    deleteFromBoard: (member) => dispatch(deleteBoardMember_request(member))
 })
 
 const BoardMemberCnt = connect(

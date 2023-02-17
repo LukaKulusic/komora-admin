@@ -17,7 +17,7 @@ export function* getAdvertisments() {
 }
 
 export function* addAdvertisment(adv) {
-    const response = yield call(addAdvertisment_api(adv))
+    const response = yield call(addAdvertisment_api, adv.payload)
     if(!response || !response.data) {
         return yield put(addAdv_failure('Internal server error for add advertisment'))
     }
@@ -29,7 +29,7 @@ export function* addAdvertisment(adv) {
 }
 
 export function* deleteAdvertisment(adv) {
-    const response = yield call(deleteAdv_api(adv))
+    const response = yield call(deleteAdv_api, adv.payload.id)
     if(!response || !response.data) {
         return yield put(deleteAdv_failure('Internal server error for delete advertisment'))
     }
@@ -41,7 +41,7 @@ export function* deleteAdvertisment(adv) {
 }
 
 export function* editAdvertisment(adv) {
-    const response = yield call(editAdv_api(adv))
+    const response = yield call(editAdv_api, adv.payload)
     if(!response || !response.data) {
         return yield put(editAdv_failure('Intertnal server error for edit advertisment'))
     }

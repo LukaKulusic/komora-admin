@@ -15,8 +15,8 @@ export function* getContactDetails() {
     }
 }
 
-export function* changeDetails(details) {
-    const response = yield call(changeDetails_api(details))
+export function* changeDetails(action) {
+    const response = yield call(changeDetails_api, action.payload)
     if(!response || !response.data) {
         return yield put(changeDetails_failure('Internal server error for changing company details'))
     }

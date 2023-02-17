@@ -39,24 +39,33 @@ class News extends React.Component {
         this.setup()
     }
 
-    componentWillReceiveProps(nextProps) {
-        let pagNews = []
-        if(nextProps.news.length > 0) {
-            pagNews = nextProps.news.slice(this.state.activePage*this.state.newsPerPage - this.state.newsPerPage,
-                this.state.activePage*this.state.newsPerPage, [])
+
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        let _pagNews, _categoriesForSelect, _news, _totalNews
+        if(nextProps.news !== prevProps.news) {
+            _news = nextProps.news
+            _pagNews = nextProps.news.slice(prevProps.activePage*prevProps.newsPerPage - prevProps.newsPerPage,
+                prevProps.activePage*prevProps.newsPerPage, [])
+            _totalNews = nextProps.news.length
         }
-        let categoriesForSelect = nextProps.categories.map(cat => {
-            return {
-                value: cat.id,
-                label: cat.name
-            }
-        })
-        this.setState({
-            news: nextProps.news,
-            data: pagNews,
-            totalNews: nextProps.news.length,
-            categories: categoriesForSelect
-        })
+        if(nextProps.categories !== prevProps.categories) {
+            _news = nextProps.news
+            _pagNews = nextProps.news.slice(prevProps.activePage*prevProps.newsPerPage - prevProps.newsPerPage,
+                prevProps.activePage*prevProps.newsPerPage, [])
+            _totalNews = nextProps.news.length
+            _categoriesForSelect = nextProps.categories.map(cat => {
+                return {
+                    value: cat.id,
+                    label: cat.name
+                }
+            })
+        }
+        return {
+            news: _news,
+            data: _pagNews,
+            totalNews: _totalNews,
+            categories: _categoriesForSelect
+        }
     }
 
     search = (input) => {
@@ -141,6 +150,7 @@ class News extends React.Component {
             } else if (column === 'id') {
                 return b.id - a.id
             }
+            return 0;
         }) 
         if(direction === 'asc') {
             data.reverse()
@@ -236,23 +246,31 @@ class News extends React.Component {
                                             Datum
                                         </th>
                                         <th>
+                                            Fajl
+                                        </th>
+                                        <th>
                                             Akcije
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
+                                        this.state.data !== undefined ?
                                         this.state.data.map(novelty => {
                                             return <Novelty 
                                                 key={novelty.id}
                                                 id={novelty.id}
                                                 title={novelty.title}
-                                                date={novelty.date}
+                                                updated_at={novelty.updated_at}
                                                 category_name={novelty.category_name}
                                                 content={novelty.content}
+                                                file={novelty.file}
                                                 deleteNovelty={() => this.deleteNoveltyClick(novelty)}
                                             />
                                         })
+                                        : <tr>
+                                            <td></td>
+                                        </tr>
                                     }
                                 </tbody>
                                 <tfoot>

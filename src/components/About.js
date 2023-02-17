@@ -10,7 +10,8 @@ class About extends React.Component {
             id: '',
             aboutTitle: '',
             aboutContent: '',
-            parliamentContent: ''
+            parliamentContent: '',
+            content: ''
         }
     }
 
@@ -18,13 +19,16 @@ class About extends React.Component {
         this.props.getContent()
     }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            id: nextProps.content[0].id,
-            aboutTitle: nextProps.content[0].aboutTitle,
-            aboutContent: nextProps.content[0].aboutContent,
-            parliamentContent: nextProps.content[0].parliamentContent
-        })
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if(nextProps.content !== prevProps.content) {
+            return {
+                id: nextProps.content.id,
+                aboutTitle: nextProps.content.aboutTitle,
+                aboutContent: nextProps.content.aboutContent,
+                parliamentContent: nextProps.content.parliamentContent,
+                content: nextProps.content
+            }
+        }
     }
 
     chageAboutTitle = (e) => {
@@ -41,14 +45,15 @@ class About extends React.Component {
 
     submitForm = (e) => {
         e.preventDefault()
-        const details = {
+
+        let details = {
             id: this.state.id,
             aboutTitle: this.state.aboutTitle,
             aboutContent: this.state.aboutContent,
             parliamentContent: this.state.parliamentContent
         }
-        console.log(details);
         this.props.editContent(details)
+        alert("Uspjesno ste promjenili podatke na stranici o nama")
     }
 
     render() {
